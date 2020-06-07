@@ -1,33 +1,35 @@
-class Paddle {
-  
-  constructor(){
-    this.width = 10;
-    this.height = 70;
-    this.xPosition = 0;
-    this.yPosition= 0;
-  }
-  
-  
-  display(){
-    rect(this.xPosition, this.yPosition, this.width, this.height);
-  };
-}
+var car, wall;
+var speed, weigth;
 
-function setup(){
-  createCanvas(400,400);
+function setup() {
+  createCanvas(1600, 400);
+
+  speed = random(59, 90);
+  weigth = random(400, 1500);
+
+  wall = createSprite(1000, 200, 60, height / 2);
+  car = createSprite(50, 200, 50, 50);
+
+  car.velocityX = speed;
+
 }
 
 function draw() {
-  //set background to white
-  background("white");
-  
-  //player Paddle
-  var playerPaddle = new Paddle();
-  playerPaddle.xPosition = 390;
-  playerPaddle.yPosition = mouseY;
-  
-  playerPaddle.display();
-  
-  //draw the ball
-  rect(200,200,10,10);
+  background(0);
+
+  if(isTouching(car,wall)){
+    car.velocityX=0;
+    var deformation = (0.5*weigth*speed*speed)/22500;
+    if(deformation<100){
+      car.shapeColor="green";
+    }else if(deformation >= 100 && deformation < 180){
+      car.shapeColor="yellow"
+    }else if (deformation >= 180){
+      car.shapeColor="red"
+    }
+     
+  }
+
+  drawSprites();
 }
+
